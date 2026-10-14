@@ -1,0 +1,314 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Campus Customs: Desk Tickets</title>
+<style>
+  :root {
+    --navy: #0f2747; --ink: #1d2433; --muted: #5b6577; --paper: #fbf8f1; --card: #ffffff;
+    --line: #e4dccb; --yale: #00356b; --gold: #c9a227; --green: #2f7d4f; --red: #b23a3a;
+    --boss: #00356b; --inventory: #2f7d4f; --accounting: #8a5a00; --facilities: #6b3fa0; --customer_service: #c2410c;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; font: 15px/1.55 -apple-system, "Segoe UI", Helvetica, Arial, sans-serif; color: var(--ink); background: var(--paper); }
+  header { background: var(--navy); color: #fff; padding: 22px 32px 0; }
+  header h1 { margin: 0; font-size: 24px; letter-spacing: .3px; }
+  header p { margin: 4px 0 16px; color: #c9d3e3; }
+  nav { display: flex; gap: 4px; flex-wrap: wrap; }
+  nav button { border: 0; background: rgba(255,255,255,.08); color: #dfe6f1; padding: 10px 18px; border-radius: 10px 10px 0 0; cursor: pointer; font: inherit; font-weight: 600; }
+  nav button.active { background: var(--paper); color: var(--navy); }
+  main { max-width: 1040px; margin: 0 auto; padding: 26px 32px 60px; }
+  section.tab { display: none; }
+  section.tab.active { display: block; }
+  .facts { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 14px 18px; margin-bottom: 18px; }
+  .facts h2 { margin: 0 0 6px; font-size: 20px; color: var(--navy); }
+  .facts dl { display: grid; grid-template-columns: 170px 1fr; gap: 4px 12px; margin: 8px 0 0; }
+  .facts dt { color: var(--muted); }
+  .facts dd { margin: 0; }
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 860px) { .cols { grid-template-columns: 1fr; } }
+  .panel { background: var(--card); border: 1px solid var(--line); border-radius: 12px; padding: 16px 20px; }
+  .panel h3 { margin: 0 0 10px; font-size: 13px; text-transform: uppercase; letter-spacing: 1.2px; }
+  .expected h3 { color: var(--yale); }
+  .actual h3 { color: var(--green); }
+  .panel h4 { margin: 14px 0 4px; font-size: 14px; color: var(--navy); }
+  .panel ul, .panel ol { margin: 4px 0 4px 18px; padding: 0; }
+  .panel li { margin: 3px 0; }
+  .empty { color: var(--muted); font-style: italic; border: 1px dashed var(--line); border-radius: 8px; padding: 14px; text-align: center; }
+  code { background: #f1ece0; padding: 1px 5px; border-radius: 4px; font-size: 13px; }
+  .agent { display: inline-block; padding: 0 8px; border-radius: 999px; color: #fff; font-size: 12px; font-weight: 700; line-height: 20px; }
+  .a-boss { background: var(--boss); } .a-inventory { background: var(--inventory); } .a-accounting { background: var(--accounting); }
+  .a-facilities { background: var(--facilities); } .a-customer_service { background: var(--customer_service); }
+  .skip { color: var(--muted); }
+  table { border-collapse: collapse; width: 100%; background: var(--card); }
+  th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+  th { background: #f4efe3; }
+  td.num, th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .coming { padding: 40px; text-align: center; color: var(--muted); font-size: 18px; background: var(--card); border: 1px dashed var(--line); border-radius: 12px; }
+  .reflection h3 { color: var(--navy); margin-top: 26px; }
+</style>
+</head>
+<body>
+<header>
+  <h1>Campus Customs: Desk Tickets</h1>
+  <p>Shop date (desk.date_today): <strong>2026-08-31</strong> · Starting checking balance: <strong>$3,400.00</strong> · Ending: <strong>$152.00</strong> · all 3 tickets resolved</p>
+  <nav>
+    <button data-tab="t101" class="active">Ticket 101</button>
+    <button data-tab="t102">Ticket 102</button>
+    <button data-tab="t103">Ticket 103</button>
+    <button data-tab="cash">Cash</button>
+    <button data-tab="reflection">Reflection</button>
+  </nav>
+</header>
+<main>
+
+<!-- ───────────────────────── Ticket 101 ───────────────────────── -->
+<section class="tab active" id="t101">
+  <div class="facts">
+    <h2>#101 · Bulldog tee (customer_order)</h2>
+    <dl>
+      <dt>Requester</dt><dd>Tauhid Zaman</dd>
+      <dt>Asks for</dt><dd>1 × Classic Bulldog Tee <code>CC-TEE-WHITE</code>, size S</dd>
+      <dt>What the DB says</dt><dd>0 on hand in S · restock vendor Bulldog Print Co (apparel reprint, 5-day lead) · invoice 501, $840, <strong>open</strong>, due 2026-08-28 (3 days overdue) · unit cost $8, list $28</dd>
+    </dl>
+  </div>
+  <div class="cols">
+    <div class="panel expected">
+      <h3>Expected (written before running)</h3>
+      <h4>Who the Boss calls first, and why</h4>
+      <p><span class="agent a-inventory">Inventory</span> first. It's a customer order for a specific SKU and size, so the first question is whether we have it. If we don't, the next question is who can make it, and the ticket's <code>invoice_id 501</code> hints the vendor is the problem.</p>
+      <h4>Delegations we expect</h4>
+      <ol>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-inventory">Inventory</span>: check CC-TEE-WHITE S, find the vendor. Expect 0 on hand, Bulldog Print Co, 5-day lead, blocked by invoice 501.</li>
+        <li><span class="agent a-inventory">Inventory</span> → <span class="agent a-accounting">Accounting</span> (direct, no relay through the Boss): prepare payment of overdue invoice 501 ($840) and a restock PO for 1 tee ($8), both waiting on human approval.</li>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-customer_service">Customer Service</span>: draft a note to Tauhid saying the tee is out of stock in S, being reprinted, ETA 2026-09-05 (today + 5 days).</li>
+        <li><span class="agent a-boss">Boss</span> resolves (waits as awaiting_approval until the human approves both payments).</li>
+      </ol>
+      <p class="skip">Not called: <strong>Facilities</strong> (nothing to do with the space).</p>
+      <h4>MCP tools we expect</h4>
+      <p><code>get_ticket</code>, <code>get_desk_today</code>, <code>check_stock</code>, <code>list_vendors</code>, <code>get_vendor_invoices</code> / <code>get_invoice</code>, <code>get_cash_balance</code>, <code>request_payment</code> (invoice 501), <code>create_purchase_order</code> (1 × tee S), <code>draft_customer_message</code>, <code>resolve_ticket</code>.</p>
+      <h4>Expected cash effect</h4>
+      <p>−$840 (invoice 501) − $8 (1 tee at unit cost) = <strong>−$848</strong>, after human approval.</p>
+    </div>
+    <div class="panel actual" id="actual-101">
+      <h3>Actual (from the real run)</h3>
+            <p><strong>Run:</strong> 2026-10-14 16:35:20 to 16:36:02 (about 40 s) · 42,529 tokens · run id <code>61f0225d52</code> · ended <em>awaiting_approval</em> with 2 payments, then <strong>resolved</strong> after I approved both.</p>
+      <h4>Which agents worked</h4>
+      <p><span class="agent a-boss">Boss</span> 18,626 tok · <span class="agent a-inventory">Inventory</span> 4,900 tok · <span class="agent a-accounting">Accounting</span> 11,732 tok · <span class="agent a-customer_service">Customer Service</span> 7,271 tok. <span class="skip">Facilities stayed at its desk.</span></p>
+      <h4>Delegations that actually happened</h4>
+      <ol>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-inventory">Inventory</span>: "check stock, vendor restock availability/lead_days, and whether invoice 501 blocks restock… do not place orders." Reply: 0 on hand in S, shortfall 1, Bulldog Print Co (vendor 1), 5-day lead, ETA 2026-09-05, blocked by invoice #501 ($840, 3 days overdue), restock cost $8.</li>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-accounting">Accounting</span>: "prepare what payments/restock PO are feasible with human approval, respecting invoice-before-PO." Reply: approval #1 = invoice 501 $840, approval #2 = PO #1 for 1 tee at $8, $2,552 left after pending.</li>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-customer_service">Customer Service</span>: "draft a customer message only, accurately explaining conditional timing." Reply: draft #1 to Tauhid Zaman, out of stock in S, $28 list price, Sept 5 ETA conditional on approvals, not sent.</li>
+        <li><span class="agent a-boss">Boss</span> called <code>resolve_ticket</code>, which set the status to awaiting_approval. After I approved #1 then #2 on the board, the ticket flipped to <strong>resolved</strong>.</li>
+      </ol>
+      <h4>MCP tools used</h4>
+      <ul>
+        <li><span class="agent a-boss">Boss</span>: <code>get_ticket</code>, <code>get_desk_today</code>, <code>get_ticket_work</code>, <code>list_approvals</code>, <code>resolve_ticket</code> (+ <code>delegate</code> ×3)</li>
+        <li><span class="agent a-inventory">Inventory</span>: <code>get_desk_today</code>, <code>check_stock</code>, <code>get_pricing</code>, <code>list_vendors</code>, <code>get_ticket</code>, <code>get_vendor_invoices</code></li>
+        <li><span class="agent a-accounting">Accounting</span>: <code>get_cash_balance</code>, <code>list_approvals</code>, <code>get_invoice</code>, <code>get_ticket</code>, <code>get_desk_today</code>, <code>get_ticket_work</code>, <code>request_payment</code> (invoice 501), <code>create_purchase_order</code> (1 × tee S), <code>log_ticket_update</code></li>
+        <li><span class="agent a-customer_service">Customer Service</span>: <code>get_ticket</code>, <code>get_ticket_work</code>, <code>get_desk_today</code>, <code>check_stock</code>, <code>get_pricing</code>, <code>draft_customer_message</code></li>
+      </ul>
+      <h4>Expected vs. actual</h4>
+      <p>Same agents, same order, same tools, same cash (−$848). One difference: I expected Inventory to hand the invoice straight to Accounting. Instead it stopped at "next step: Accounting must arrange payment" and the <strong>Boss relayed</strong> it (all three hand-offs went through the Boss). The Boss's task to Inventory ended with "do not place orders", so Inventory reported back instead of delegating.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── Ticket 102 ───────────────────────── -->
+<section class="tab" id="t102">
+  <div class="facts">
+    <h2>#102 · Rent due (rent_notice)</h2>
+    <dl>
+      <dt>Requester</dt><dd>Elm City Properties</dd>
+      <dt>Asks for</dt><dd>"shop rent due in 2 days" (lease_id 1)</dd>
+      <dt>What the DB says</dt><dd>Chapel Street shop · $2,400/month · next_due 2026-09-02 (2 days after 2026-08-31)</dd>
+    </dl>
+  </div>
+  <div class="cols">
+    <div class="panel expected">
+      <h3>Expected (written before running)</h3>
+      <h4>Who the Boss calls first, and why</h4>
+      <p><span class="agent a-facilities">Facilities</span> first. The ticket is a lease notice with <code>lease_id 1</code>, and Facilities owns the lease. It should confirm the amount and due date from the <code>leases</code> table rather than trusting the email.</p>
+      <h4>Delegations we expect</h4>
+      <ol>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-facilities">Facilities</span>: confirm lease 1, $2,400 due 2026-09-02, and check that cash covers it.</li>
+        <li><span class="agent a-facilities">Facilities</span> → <span class="agent a-accounting">Accounting</span>: prepare the rent payment ($2,400 to Elm City Properties) for human approval.</li>
+        <li><span class="agent a-boss">Boss</span> resolves (awaiting_approval until the human approves).</li>
+      </ol>
+      <p class="skip">Not called: <strong>Inventory</strong> (no product) and <strong>Customer Service</strong> (the landlord isn't a customer, and the rent payment itself answers the notice).</p>
+      <h4>MCP tools we expect</h4>
+      <p><code>get_ticket</code>, <code>get_desk_today</code>, <code>get_lease</code>, <code>get_cash_balance</code>, <code>request_payment</code> (rent, lease 1), <code>resolve_ticket</code>.</p>
+      <h4>Expected cash effect</h4>
+      <p><strong>−$2,400</strong> after human approval. Lease next_due moves to 2026-10-02.</p>
+    </div>
+    <div class="panel actual" id="actual-102">
+      <h3>Actual (from the real run)</h3>
+            <p><strong>Run:</strong> 2026-10-14 16:36:09 to 16:36:35 (about 26 s) · 30,007 tokens · run id <code>580269d7d8</code> · I approved the rent while the Boss was still wrapping up, so it closed as <strong>resolved</strong>.</p>
+      <h4>Which agents worked</h4>
+      <p><span class="agent a-boss">Boss</span> 13,562 tok · <span class="agent a-facilities">Facilities</span> 5,094 tok · <span class="agent a-accounting">Accounting</span> 11,351 tok (two separate runs). <span class="skip">Inventory and Customer Service stayed at their desks.</span></p>
+      <h4>Delegations that actually happened</h4>
+      <ol>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-facilities">Facilities</span>: "confirm lease 1 details, rent amount and due date relative to desk date 2026-08-31." </li>
+        <li><span class="agent a-facilities">Facilities</span> → <span class="agent a-accounting">Accounting</span> (<strong>specialist-to-specialist</strong>, no Boss relay): "prepare the rent payment for lease 1… $2,400.00, due 2026-09-02… prepare only; payment requires human approval." Accounting created approval #3 for $2,400, leaving $152 available.</li>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-accounting">Accounting</span> again: "Prepare rent payment for human approval if affordable." Accounting checked <code>list_approvals</code>, saw #3 already pending, and replied "already prepared… I did not submit a duplicate request."</li>
+        <li><span class="agent a-boss">Boss</span> called <code>resolve_ticket</code> at 16:36:33. I had approved #3 one second earlier (16:36:32), so with nothing pending the ticket was <strong>resolved</strong> right away. The Boss's final message still said the rent "still requires human approval" because it was based on Accounting's earlier report. Lease next_due moved to 2026-10-02.</li>
+      </ol>
+      <h4>MCP tools used</h4>
+      <ul>
+        <li><span class="agent a-boss">Boss</span>: <code>get_ticket</code>, <code>get_desk_today</code>, <code>get_ticket_work</code>, <code>list_approvals</code>, <code>resolve_ticket</code> (+ <code>delegate</code> ×2)</li>
+        <li><span class="agent a-facilities">Facilities</span>: <code>get_ticket</code>, <code>get_desk_today</code>, <code>get_lease</code>, <code>get_cash_balance</code>, <code>log_ticket_update</code> (+ <code>delegate</code> ×1)</li>
+        <li><span class="agent a-accounting">Accounting</span>: <code>get_cash_balance</code>, <code>get_ticket_work</code>, <code>list_approvals</code>, <code>get_desk_today</code>, <code>request_payment</code> (rent, lease 1), <code>get_ticket</code></li>
+      </ul>
+      <h4>Expected vs. actual</h4>
+      <p>Matched the plan exactly on agents (Boss → Facilities → Accounting, nobody else), tools and cash (−$2,400). Facilities did the direct hand-off to Accounting I hoped for. The one waste: the Boss <strong>didn't trust the reply</strong> and sent Accounting the same job a second time. That cost a second Accounting run (most of its 11.4k tokens). The duplicate guard in <code>request_payment</code> plus Accounting checking <code>list_approvals</code> kept it from double-paying rent.</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── Ticket 103 ───────────────────────── -->
+<section class="tab" id="t103">
+  <div class="facts">
+    <h2>#103 · Bulk hoodie discount (price_override)</h2>
+    <dl>
+      <dt>Requester</dt><dd>Yale AI Club</dd>
+      <dt>Asks for</dt><dd>20 × Basic Hoodie Big Yale <code>CC-HOOD-NAVY</code>, size M, with a bulk discount</dd>
+      <dt>What the DB says</dt><dd>8 on hand in M (12 short) · unit cost $22, list $58 · restock from Bulldog Print Co (5-day lead), the same vendor tied to invoice 501</dd>
+    </dl>
+  </div>
+  <div class="cols">
+    <div class="panel expected">
+      <h3>Expected (written before running)</h3>
+      <h4>Who the Boss calls first, and why</h4>
+      <p><span class="agent a-inventory">Inventory</span> first. A discount doesn't matter if we can't deliver 20 in M, so the first fact is stock vs. quantity, then who restocks the gap and when.</p>
+      <h4>Delegations we expect</h4>
+      <ol>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-inventory">Inventory</span>: 8 on hand, shortfall 12, Bulldog Print Co can restock in 5 days (blocked until invoice 501 is paid).</li>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-accounting">Accounting</span>: margin math at a few discounts (list $58, cost $22), save a quote, and check whether cash can fund a 12-unit restock ($264). After invoice 501 and rent there's only about $152–$160 left, so we expect the full restock to be <strong>refused</strong> and Accounting to suggest a partial restock or a partial fill.</li>
+        <li><span class="agent a-boss">Boss</span> makes the discount call (something like 10–15% off, still well above cost).</li>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-customer_service">Customer Service</span>: draft the offer to the Yale AI Club with the price, what we can hand over now (8), and what depends on restock.</li>
+      </ol>
+      <p class="skip">Not called: <strong>Facilities</strong>.</p>
+      <h4>MCP tools we expect</h4>
+      <p><code>get_ticket</code>, <code>get_desk_today</code>, <code>check_stock</code>, <code>list_vendors</code> / <code>get_vendor_invoices</code>, <code>get_pricing</code>, <code>quote_bulk_discount</code>, <code>record_quote</code>, <code>get_cash_balance</code>, maybe <code>reserve_stock</code> (hold the 8) and <code>create_purchase_order</code> (expected refusal at 12 units), <code>draft_customer_message</code>, <code>resolve_ticket</code>.</p>
+      <h4>Expected cash effect</h4>
+      <p>$0 if the restock is refused, or a small partial PO (at most ~6 hoodies × $22 = $132) that fits what's left.</p>
+    </div>
+    <div class="panel actual" id="actual-103">
+      <h3>Actual (from the real run)</h3>
+            <p><strong>Run:</strong> 2026-10-14 16:36:41 to 16:37:04 (about 23 s) · 34,027 tokens · run id <code>4175313094</code> · <strong>resolved</strong> directly (no payments to approve).</p>
+      <h4>Which agents worked</h4>
+      <p><span class="agent a-boss">Boss</span> 14,858 tok · <span class="agent a-inventory">Inventory</span> 4,538 tok · <span class="agent a-accounting">Accounting</span> 10,063 tok · <span class="agent a-customer_service">Customer Service</span> 4,568 tok. <span class="skip">Facilities stayed at its desk.</span></p>
+      <h4>Delegations that actually happened</h4>
+      <ol>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-inventory">Inventory</span>: "check on-hand availability and any shortfall/restock vendor/lead time or blocked status." Reply: 8 on hand, 20 requested, shortfall 12, Bulldog Print Co, 5-day lead (ETA Sept 5), <strong>no blocking invoice</strong> (501 was now paid), restock cost $264. Nothing reserved.</li>
+        <li><span class="agent a-boss">Boss</span> → <span class="agent a-accounting">Accounting</span>: "calculate unit cost/margin and viable bulk discount, check cash including pending approvals, and prepare the restock PO/payment action if feasible." Reply: checking $152, so the $264 restock is <strong>$112 short</strong> and no PO was prepared. Quotes compared: 0% ($58, $36 margin), 10% ($52.20, $30.20 margin, 57.9%), 15% ($49.30, $27.30 margin). Saved quote #1 at 10% off: 20 × $52.20 = $1,044.</li>
+        <li><span class="agent a-boss">Boss</span> decided <strong>not</strong> to offer the discount ("we cannot fulfill the order") → <span class="agent a-customer_service">Customer Service</span>: draft a reply offering only the 8 in stock with no date for 20. Reply: draft #2 to the Yale AI Club, not sent.</li>
+        <li><span class="agent a-boss">Boss</span> called <code>resolve_ticket</code>, and with nothing pending the ticket was <strong>resolved</strong> straight away.</li>
+      </ol>
+      <h4>MCP tools used</h4>
+      <ul>
+        <li><span class="agent a-boss">Boss</span>: <code>get_ticket</code>, <code>get_desk_today</code>, <code>get_ticket_work</code>, <code>resolve_ticket</code> (+ <code>delegate</code> ×3)</li>
+        <li><span class="agent a-inventory">Inventory</span>: <code>check_stock</code>, <code>get_pricing</code>, <code>list_vendors</code>, <code>get_desk_today</code>, <code>get_vendor_invoices</code></li>
+        <li><span class="agent a-accounting">Accounting</span>: <code>get_desk_today</code>, <code>get_pricing</code>, <code>get_cash_balance</code>, <code>get_ticket_work</code>, <code>get_vendor_invoices</code>, <code>list_approvals</code>, <code>quote_bulk_discount</code>, <code>record_quote</code>, <code>log_ticket_update</code></li>
+        <li><span class="agent a-customer_service">Customer Service</span>: <code>get_ticket</code>, <code>get_ticket_work</code>, <code>get_desk_today</code>, <code>draft_customer_message</code></li>
+      </ul>
+      <h4>Expected vs. actual</h4>
+      <p>Agents and order matched (Inventory → Accounting → Customer Service, no Facilities), and the cash constraint showed up exactly as predicted ($152 left vs. $264 needed). Differences: Accounting checked cash <em>before</em> calling <code>create_purchase_order</code>, so the tool's refusal never fired. It also didn't try a partial PO (6 × $22 = $132 would have fit). The Boss didn't hold the 8 hoodies with <code>reserve_stock</code>, and it turned down the 10% quote instead of offering 8 now at a discount. Cash effect: <strong>$0</strong> (I expected $0 or a small partial PO).</p>
+    </div>
+  </div>
+</section>
+
+<!-- ───────────────────────── Cash ───────────────────────── -->
+<section class="tab" id="cash">
+  <div class="facts">
+    <h2>Cash: checking account</h2>
+    <p>Run order: 101 → 102 → 103, after <code>POST /api/reset</code> copied <code>campus_customs.db</code> over <code>campus_customs_new.db</code>. Every dollar below left only after I clicked <strong>Approve</strong> on the board (<code>payments.approved_by = "Emilio Gonzalez"</code>). No revenue is modeled, so cash only goes down.</p>
+  </div>
+  <table>
+    <thead><tr><th>step</th><th>ticket</th><th>what moved cash, and why</th><th>approval / payment</th><th class="num">change</th><th class="num">balance</th></tr></thead>
+    <tbody>
+      <tr><td>Start</td><td>—</td><td>Starting checking balance after the reset (<code>cash_accounts.checking</code>)</td><td>—</td><td class="num">—</td><td class="num"><strong>$3,400.00</strong></td></tr>
+      <tr><td>1</td><td>#101</td><td>Paid Bulldog Print Co <strong>invoice 501</strong>, 3 days overdue. Bulldog won't ship new product while it's unpaid. Invoice status → paid.</td><td>approval #1 / payment #1 (invoice, ref 501)</td><td class="num">−$840.00</td><td class="num">$2,560.00</td></tr>
+      <tr><td>2</td><td>#101</td><td><strong>Purchase order #1</strong>: restock 1 × CC-TEE-WHITE S at $8 unit cost from Bulldog Print Co, ETA 2026-09-05 (5-day lead).</td><td>approval #2 / payment #2 (purchase_order, ref PO 1)</td><td class="num">−$8.00</td><td class="num">$2,552.00</td></tr>
+      <tr><th colspan="4">Ticket 101 total</th><th class="num">−$848.00</th><th class="num">$2,552.00</th></tr>
+      <tr><td>3</td><td>#102</td><td><strong>Rent</strong> for lease 1 (Chapel Street shop) to Elm City Properties, due 2026-09-02. Lease next_due → 2026-10-02.</td><td>approval #3 / payment #3 (rent, ref lease 1)</td><td class="num">−$2,400.00</td><td class="num">$152.00</td></tr>
+      <tr><th colspan="4">Ticket 102 total</th><th class="num">−$2,400.00</th><th class="num">$152.00</th></tr>
+      <tr><td>4</td><td>#103</td><td><strong>No payment.</strong> Restocking the 12-hoodie shortfall would cost 12 × $22 = $264, but only $152 was available ($112 short), so Accounting prepared no PO. Quote #1 (10% off, $1,044 for 20) was saved but not offered, and no money moves on a quote.</td><td>none</td><td class="num">$0.00</td><td class="num">$152.00</td></tr>
+      <tr><th colspan="4">Ticket 103 total</th><th class="num">$0.00</th><th class="num">$152.00</th></tr>
+      <tr><td>End</td><td>—</td><td>Ending checking balance</td><td>—</td><td class="num"><strong>−$3,248.00</strong></td><td class="num"><strong>$152.00</strong></td></tr>
+    </tbody>
+  </table>
+  <div class="facts" style="margin-top:18px">
+    <h2>Check against the working database</h2>
+    <dl>
+      <dt>Math</dt><dd>$3,400.00 − $840.00 − $8.00 − $2,400.00 − $0.00 = <strong>$152.00</strong></dd>
+      <dt><code>cash_accounts</code></dt><dd><code>checking | 152.0 | 2026-08-31</code> ✓ matches</dd>
+      <dt><code>payments</code></dt><dd>3 rows: invoice 501 $840 · purchase_order 1 $8 · rent 1 $2,400, sum $3,248 ✓, all <code>approved_by = Emilio Gonzalez</code></dd>
+      <dt>Side effects</dt><dd><code>invoices.501.status = paid</code> · <code>leases.1.next_due = 2026-10-02</code> · <code>purchase_orders.1.status = ordered</code></dd>
+      <dt>Never negative</dt><dd>The lowest point was $152.00. The only thing that would have gone below it (the $264 hoodie restock) was never prepared.</dd>
+    </dl>
+  </div>
+</section>
+
+<!-- ───────────────────────── Reflection ───────────────────────── -->
+<section class="tab" id="reflection">
+  <div class="panel reflection">
+    <p class="skip">Evidence: the three ticket tabs (Expected vs Actual), the Cash tab, <code>output/audit_trail.json</code> (graded run ids 61f0225d52 / 580269d7d8 / 4175313094; the trail also keeps an earlier practice run of the same three tickets) and <code>output/resolved_tickets.json</code>.</p>
+
+    <h3>1. How I'd rate the agents on each ticket</h3>
+    <table>
+      <thead><tr><th>ticket</th><th>grade</th><th>why</th></tr></thead>
+      <tbody>
+        <tr><td>#101 Bulldog tee</td><td><strong>A−</strong></td><td>It got the hard part right. Inventory caught that invoice 501 was 3 days overdue on the shop date (2026-08-31, not today's real date) and that Bulldog wouldn't ship until it was paid. Accounting queued the $840 invoice (approval #1) <em>before</em> the $8 PO (approval #2), and only ordered the 1 tee Tauhid actually needs. The draft says "we expect Sept 5" instead of promising it. I took points off for cost: it was the most expensive run (42,529 tokens), and the Boss alone used 18,626 of them because every hand-off went back through it.</td></tr>
+        <tr><td>#102 Rent due</td><td><strong>B+</strong></td><td>Right people and nobody extra: Boss → Facilities → Accounting, with Inventory and Customer Service never woken up (you can see them faded on the board screenshot). Facilities confirmed $2,400 / due 2026-09-02 from the <code>leases</code> table instead of trusting the "due in 2 days" email, then handed straight to Accounting. Points off because the Boss then asked Accounting to prepare the same rent again. Accounting had to check <code>list_approvals</code> and say "already prepared… I did not submit a duplicate," so we paid for a second Accounting run on a ticket that is really one payment.</td></tr>
+        <tr><td>#103 Bulk hoodies</td><td><strong>B−</strong></td><td>The facts and math were perfect: 8 on hand, 12 short, $264 to restock vs. $152 in checking, so $112 short and no PO. That's exactly the cash trap the data sets up, and nobody tried to sneak around it. The business judgment was weaker. Nobody tried a partial restock (6 × $22 = $132 would fit), nobody held the 8 hoodies with <code>reserve_stock</code>, and the Boss threw out Accounting's 10% quote even though we could have sold the 8 at $52.20 with a $30.20 margin. The draft to the Yale AI Club ("reconnect if availability changes") is honest but kind of a shrug to a customer asking to buy 20.</td></tr>
+      </tbody>
+    </table>
+    <p>Across all three, the team never broke a shop rule. Every dollar (3 payments, $3,248) went through my Approve click, the balance never went below $152, and nothing was sent to a customer.</p>
+
+    <h3>2. Actual vs. Expected, ticket by ticket</h3>
+    <ul>
+      <li><strong>#101:</strong> Same agents (Inventory → Accounting → Customer Service, no Facilities), same tools, same −$848. The difference is the shape. I expected Inventory to hand the invoice straight to Accounting, but the Boss told it "do not place orders" and then relayed everything itself. So the "full connectivity" I built didn't get used here. It was hub-and-spoke.</li>
+      <li><strong>#102:</strong> The closest match. It went Boss → Facilities → Accounting exactly as planned, it was the one ticket where a specialist delegated to another specialist directly, and it cost −$2,400 as expected. The only thing I didn't predict was the Boss's duplicate request to Accounting.</li>
+      <li><strong>#103:</strong> I predicted the restock would get refused and it was. Accounting just checked <code>get_cash_balance</code> first and never called <code>create_purchase_order</code>, so the refusal came from the agent, not the tool. I expected maybe a small partial PO or a 10–15% discount on what we have. Instead we got $0 spent, a saved-but-unused 10% quote, and no reservation.</li>
+    </ul>
+
+    <h3>3. What would have been simpler as one agent with tools, and why</h3>
+    <ul>
+      <li><strong>Ticket 102 for sure.</strong> One agent with <code>get_lease</code>, <code>get_cash_balance</code> and <code>request_payment</code> does it in about three tool calls. The team version used three agents, four agent runs, three delegations and 30,007 tokens, and the extra hop is exactly where the duplicate request came from. There's no judgment call in paying rent that needs a specialist.</li>
+      <li><strong>The Boss-as-relay pattern in general.</strong> The Boss used 18,626 + 13,562 + 14,858 = 47,046 of the 106,563 tokens (44%) across the run, mostly re-reading replies and re-summarizing them for the next agent. A single agent keeps everything in one context and doesn't need to restate "Inventory says 0 on hand, vendor 1, ETA 9/5…" in every hand-off.</li>
+      <li><strong>Customer Service on these tickets</strong> was basically one tool call (<code>draft_customer_message</code>) after re-reading what the others found. That could just be a tool the Boss calls.</li>
+      <li><strong>Where the team still earned its keep:</strong> least privilege. Customer Service literally can't see <code>request_payment</code>, Facilities can't make a PO, and only the Boss can <code>resolve_ticket</code>. One agent with all 21 tools is simpler but has a bigger blast radius if a prompt goes wrong. I'd keep the separate roles for money and drop the extra hops for simple tickets like rent.</li>
+    </ul>
+
+    <h3>4. Three new problems this team <em>could</em> solve with the tools we already built</h3>
+    <ol>
+      <li><strong>Someone wants a Crest Mug</strong> (CC-MUG-CREST is at 0). Inventory sees 0 and picks Elm City Gifts (mugs and small goods, 3-day lead) since <code>list_vendors</code> shows it isn't blocked. Accounting runs <code>create_purchase_order</code> at the $3.50 unit cost (cheap enough to fit even our $152), I approve it, and Customer Service drafts "arriving 2026-09-03."</li>
+      <li><strong>A team wants 15 Yale Caps with a discount.</strong> CC-HAT-BLUE has 40 on hand, so this is the version of #103 that works: <code>check_stock</code> → <code>reserve_stock</code> 15 → <code>quote_bulk_discount</code> / <code>record_quote</code> (list $22, cost $6, so even 20% off leaves $11.60 margin) → draft offer. No payment, so no approval needed.</li>
+      <li><strong>Bulldog Print Co sends a new invoice</strong> (say for the 1-tee PO's shipping). Accounting finds it with <code>get_vendor_invoices</code>, computes days overdue off <code>desk.date_today</code>, prepares it with <code>request_payment</code>, and <code>create_purchase_order</code> automatically blocks any new hoodie restock from Bulldog until I approve it, which is the same rule that drove ticket #101.</li>
+    </ol>
+
+    <h3>5. Three new problems it could <em>not</em> solve, and what I'd add</h3>
+    <ol>
+      <li><strong>Making October rent.</strong> After the run we have $152, and lease 1's next_due is now 2026-10-02 for $2,400. No agent flagged that, because every agent only looks at the ticket in front of it and nothing forecasts cash. I'd add a <strong>Treasury/Planning agent</strong> that runs on a schedule (not per ticket) with a <code>forecast_cash(days)</code> tool that adds up upcoming rent (<code>leases</code>), open invoices and pending POs against the balance and opens its own warning ticket.</li>
+      <li><strong>Taking the Yale AI Club's money.</strong> The obvious fix for #103 is a deposit from the club to pay for the 12-hoodie restock, but cash only goes out in our model. There's no sales table and no way to record money coming in. I'd add a <strong>Sales agent</strong> with <code>create_customer_invoice</code>, <code>record_customer_payment</code> (adds to <code>cash_accounts</code>, human-approved like payouts) and <code>record_sale</code> (decrements inventory), so Accounting can see that a 50% deposit on the 10% quote ($522 of $1,044) would cover the $264 PO.</li>
+      <li><strong>Following through when the tee arrives.</strong> PO #1 says ETA 2026-09-05, but nothing moves the shop date forward or receives stock, so Tauhid's tee will never show up in <code>inventory</code> and nobody tells him it's in. I'd add <code>advance_desk_date</code> / <code>receive_purchase_order</code> (PO status ordered → received, inventory +1), plus a <strong>Fulfillment</strong> role and a <code>send_message</code> tool that only sends after a human approves the draft. Right now "drafts stay on the board" is the rule, so a person has to send it.</li>
+    </ol>
+  </div>
+</section>
+
+</main>
+<script>
+  const buttons = document.querySelectorAll("nav button");
+  function show(id) {
+    buttons.forEach(b => b.classList.toggle("active", b.dataset.tab === id));
+    document.querySelectorAll("section.tab").forEach(s => s.classList.toggle("active", s.id === id));
+    history.replaceState(null, "", "#" + id);
+  }
+  buttons.forEach(b => b.addEventListener("click", () => show(b.dataset.tab)));
+  if (location.hash && document.getElementById(location.hash.slice(1))) show(location.hash.slice(1));
+</script>
+</body>
+</html>

@@ -1,0 +1,83 @@
+{
+  "server": "campus-customs",
+  "config_file": ".mcp.json",
+  "transport": "stdio: .venv/bin/python mcp_server/server.py",
+  "database": "data/campus_customs_new.db",
+  "tested_at": "2026-10-14",
+  "connection_check": "Claude Code 2.1.293 loaded .mcp.json and reported campus-customs as status 'connected'. Each tool below was then called over that same stdio MCP connection, and its output was compared row for row with campus_customs_new.db.",
+  "tools_listed": [
+    "check_stock",
+    "get_lease",
+    "get_pricing"
+  ],
+  "tests": [
+    {
+      "prompt": "conect the mcp server to claude code and save the config in a .mcp.json at the projet root, making sure its pointng at the right python and server.py path. then test all three tools thru the mcp conection and save the resuts to output/mcp_smoke.json with the prompt i used, the tool name and the raw ouput for each one, and check the values agianst campus_customs_new.db so we know they match",
+      "tool": "check_stock",
+      "tool_request": "use the campus customs mcp tool check_stock to tell me how many white bulldog tees in size S we have for ticket 101",
+      "arguments": {
+        "sku": "CC-TEE-WHITE",
+        "size": "S"
+      },
+      "raw_output": "{\"found\":true,\"rows\":[{\"sku\":\"CC-TEE-WHITE\",\"name\":\"Classic Bulldog Tee\",\"size\":\"S\",\"qty\":0,\"location\":\"Aisle B\"}]}",
+      "db_check": {
+        "query": "SELECT sku, name, size, qty, location FROM inventory WHERE sku='CC-TEE-WHITE' AND size='S'",
+        "db_rows": [
+          {
+            "sku": "CC-TEE-WHITE",
+            "name": "Classic Bulldog Tee",
+            "size": "S",
+            "qty": 0,
+            "location": "Aisle B"
+          }
+        ],
+        "matches_db": true
+      }
+    },
+    {
+      "prompt": "conect the mcp server to claude code and save the config in a .mcp.json at the projet root, making sure its pointng at the right python and server.py path. then test all three tools thru the mcp conection and save the resuts to output/mcp_smoke.json with the prompt i used, the tool name and the raw ouput for each one, and check the values agianst campus_customs_new.db so we know they match",
+      "tool": "get_lease",
+      "tool_request": "use get_lease on lease 1 and tell me the rent and when its due for ticket 102",
+      "arguments": {
+        "lease_id": 1
+      },
+      "raw_output": "{\"found\":true,\"lease\":{\"id\":1,\"space_name\":\"Chapel Street shop\",\"landlord\":\"Elm City Properties\",\"monthly_rent\":2400.0,\"next_due\":\"2026-09-02\",\"notes\":null}}",
+      "db_check": {
+        "query": "SELECT id, space_name, landlord, monthly_rent, next_due, notes FROM leases WHERE id=1",
+        "db_rows": [
+          {
+            "id": 1,
+            "space_name": "Chapel Street shop",
+            "landlord": "Elm City Properties",
+            "monthly_rent": 2400.0,
+            "next_due": "2026-09-02",
+            "notes": null
+          }
+        ],
+        "matches_db": true
+      }
+    },
+    {
+      "prompt": "conect the mcp server to claude code and save the config in a .mcp.json at the projet root, making sure its pointng at the right python and server.py path. then test all three tools thru the mcp conection and save the resuts to output/mcp_smoke.json with the prompt i used, the tool name and the raw ouput for each one, and check the values agianst campus_customs_new.db so we know they match",
+      "tool": "get_pricing",
+      "tool_request": "use get_pricing on the navy hoodie and give me unit cost, list price and margin for ticket 103",
+      "arguments": {
+        "sku": "CC-HOOD-NAVY"
+      },
+      "raw_output": "{\"found\":true,\"pricing\":{\"sku\":\"CC-HOOD-NAVY\",\"unit_cost\":22.0,\"list_price\":58.0,\"margin_per_unit_at_list\":36.0}}",
+      "db_check": {
+        "query": "SELECT sku, unit_cost, list_price FROM pricing WHERE sku='CC-HOOD-NAVY'",
+        "db_rows": [
+          {
+            "sku": "CC-HOOD-NAVY",
+            "unit_cost": 22.0,
+            "list_price": 58.0
+          }
+        ],
+        "matches_db": true
+      }
+    }
+  ],
+  "all_match_db": true,
+  "prompt_i_asked_the_vibe_coder": "conect the mcp server to claude code and save the config in a .mcp.json at the projet root, making sure its pointng at the right python and server.py path. then test all three tools thru the mcp conection and save the resuts to output/mcp_smoke.json with the prompt i used, the tool name and the raw ouput for each one, and check the values agianst campus_customs_new.db so we know they match"
+}
