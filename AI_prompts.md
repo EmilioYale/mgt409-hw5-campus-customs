@@ -38,8 +38,6 @@ Every prompt I gave my vibe coder (Claude Code), one section per problem.
 
 > conect the mcp server to claude code and save the config in a .mcp.json at the projet root, making sure its pointng at the right python and server.py path. then test all three tools thru the mcp conection and save the resuts to output/mcp_smoke.json with the prompt i used, the tool name and the raw ouput for each one, and check the values agianst campus_customs_new.db so we know they match
 
-**Follow-up prompt:** None needed.
-
 ## Problem 5: Build the agent team and grow the MCP tools
 
 **Prompt:**
@@ -56,15 +54,11 @@ Every prompt I gave my vibe coder (Claude Code), one section per problem.
 
 > make output/desk_tickets.html that opens with a doubel click, with one tab each for tickets 101, 102 and 103 plus cash and reflection tabs that just say comming later. each ticket tab gets an expected section and an empty actual secton for later. in the expected sections write who the boss shoud call first and why, every delegaton we expect between agents, and which mcp tools the run should use. dont send evry specialist to every ticket, only the ones that acutally make sense
 
-**Follow-up prompt:** None needed.
-
 ## Problem 7: Backend routes
 
 **Prompt:**
 
 > in backend/main.py add fastapi routes to list the three tickets with open/resolved status, run the agent team on a ticket id, get recent agent events (what each agent said and which tools it caled), approve a payment or purchse after a human clicks approve, get the checkng balance from cash_accounts, and reset the db to the original. agents only prepare payments, the aprove route is the only thing that moves cash. start it from backend/ with uvicorn main:app --reload --port 8000, make sure evry route works at localhost:8000, and add each route to harness.md in one line with its url and what it dose
-
-**Follow-up prompt:** None needed.
 
 ## Problem 8: Agent dashboard
 
@@ -86,10 +80,15 @@ Every prompt I gave my vibe coder (Claude Code), one section per problem.
 
 > fill the cash tab with the starting balance, how cash changd on each ticket and why (which payment and how much), and the ending balance, which has to match cash_accounts. save output/resolved_tickets.json with id, status, outcome, each agents contribuion and any approvals. make output/resolved_board.html with a screenshot of the board per ticket, make sure the runs are in audit_trail.json, and finsh harness.md
 
+## Problem 10: Reflection
+
+**Prompt:**
+
+> help me draft a first version of the reflection tab in desk_tickets.html that i can go thru and edit myself. use the ticket tabs, the cash tab and the audit trail so its specific to campus customs
+
 ## Problem 11: Submit to GitHub
 
 **Prompt:**
 
 > get the repo ready to push by matching the expectd hw5 layout and adding requirements.txt, .env.example and a .gitignore that keeps my real .env out but includes both db files in data/. write the root readme.md explaning how to copy the original db to the working copy, start the mcp server, start the fastapi backend, start the react board, and reset the db before a full three ticket run. then push it to a public github repo and put the url in output/github_url.txt
 
-**Follow-up prompt:** None needed.
